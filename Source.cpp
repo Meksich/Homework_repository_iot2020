@@ -1,4 +1,4 @@
-#include "Imlerit.h"
+#include "Goro.h"
 
 int main(){
 	int n;

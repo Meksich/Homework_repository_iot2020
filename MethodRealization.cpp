@@ -1,4 +1,4 @@
-#include "Imlerit.h"
+#include "Goro.h"
 
 void InputMatrix(Matrix* A, int n) {
 	int k = A[0].m;
