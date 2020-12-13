@@ -1,12 +1,12 @@
-#include "Goro.h"
+﻿#include "Matrix.h"
 
-void InputMatrix(Matrix* A, int n) {
-	int k = A[0].m;
-	for (int i = 0; i < n; i++) {
+void InputMatrix(Matrix* A, int number_of_rows) {
+	int k = A[0].number_of_columns;
+	for (int i = 0; i < number_of_rows; i++) {
 		for (int j = 0;j < k; j++)
 		{
 			std::cout << "enter element on position [" << i << "][" << j << "]: ";
-			std::cin >> A[i].V[j];
+			std::cin >> A[i].array[j];
 
 		}
 	}
@@ -14,84 +14,84 @@ void InputMatrix(Matrix* A, int n) {
 
 
 
-void OutputMatrix(Matrix* A, int n) {
-	int k = A[0].m;
+void OutputMatrix(Matrix* A, int number_of_rows) {
+	int k = A[0].number_of_columns;
 
-	for (int i = 0; i < n; i++) {
-		std::cout << "Row � [" << i << "]: ";
+	for (int i = 0; i < number_of_rows; i++) {
+		std::cout << "Row ¹ [" << i << "]: ";
 		for (int j = 0;j < k; j++)
 		{
 
-			std::cout << A[i].V[j] << ' ';
+			std::cout << A[i].array[j] << ' ';
 		}
 		std::cout << '\n';
 	}
 }
 
 
-void merge(Matrix* A, int n) {
-	for (int k = 0; k < n; k++) {
-		merge_sort(A, 0, A[k].m, k);
+void Matrix_merge_sort(Matrix* A, int number_of_rows) {
+	for (int k = 0; k < number_of_rows; k++) {
+		Merge_sort_row(A, 0, A[k].number_of_columns, k);
 	}
 }
 
 
 
-void merge_sort(Matrix* A, int left_side, int right_side, int k) {
+void Merge_sort_row(Matrix* A, int left_side, int right_side, int k) {
 
 	if (right_side == left_side)
 		return;
 	int mid = (left_side + right_side) / 2;
-	merge_sort(A, left_side, mid, k);
-	merge_sort(A, mid + 1, right_side, k);
+	Merge_sort_row(A, left_side, mid, k);
+	Merge_sort_row(A, mid + 1, right_side, k);
 
 	int i = left_side;
 	int j = mid + 1;
 
-	int* t = new int[right_side + 1];
+	int* sorted_array = new int[right_side + 1];
 
 	for (int o = 0; o < right_side - left_side + 1; o++) {
-		if ((j > right_side) || ((i < mid + 1) && (A[k].V[i] > A[k].V[j]))) {
-			t[o] = A[k].V[i];
+		if ((j > right_side) || ((i < mid + 1) && (A[k].array[i] > A[k].array[j]))) {
+			sorted_array[o] = A[k].array[i];
 			i++;
 		}
 		else {
-			t[o] = A[k].V[j];
+			sorted_array[o] = A[k].array[j];
 			j++;
 		}
 
 	}
 
 	for (int o = 0; o < right_side - left_side + 1; o++) {
-		A[k].V[left_side + o] = t[o];
+		A[k].array[left_side + o] = sorted_array[o];
 	}
-	delete[]t;
+	delete[]sorted_array;
 }
 
-float* f(Matrix* A, int n) {
-	int k = A[0].m;
-	float* x = new float[n];
-	for (int i = 0; i < n; i++) {
-		x[i] = 1;
+float* Mean_square_column(Matrix* A, int number_of_rows) {
+	int k = A[0].number_of_columns;
+	float* array_of_mean_squares = new float[number_of_rows];
+	for (int i = 0; i < number_of_rows; i++) {
+		array_of_mean_squares[i] = 1;
 		for (int j = 0; j < k; j++) {
-			x[i] *= static_cast<float>(A[j].V[i]);
+			array_of_mean_squares[i] *= static_cast<float>(A[j].array[i]);
 		}
-		double o = 1.0 / n;
-		x[i] = static_cast<float>(pow(x[i], o));
-		std::cout << x[i] << ' ';
+		double o = 1.0 / number_of_rows;
+		array_of_mean_squares[i] = static_cast<float>(pow(array_of_mean_squares[i], o));
+		std::cout << array_of_mean_squares[i] << ' ';
 	}
 	std::cout << '\n';
-	return x;
+	return array_of_mean_squares;
 }
 
-float Func(Matrix* A, float* x, int n) {
-	float sum = 0;
-	for (int i = 0; i < n; i++) {
+float Sum_of_mean_squares(Matrix* A, float* array_of_mean_squares, int number_of_rows) {
+	float sum_columns = 0;
+	for (int i = 0; i < number_of_rows; i++) {
 
-		sum += x[i];
+		sum_columns += array_of_mean_squares[i];
 
 	}
-	delete[]x;
-	return sum;
+	delete[]array_of_mean_squares;
+	return sum_columns;
 
 }
